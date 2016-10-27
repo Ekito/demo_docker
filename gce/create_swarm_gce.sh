@@ -12,7 +12,7 @@ export GOOGLE_APPLICATION_CREDENTIALS="$(pwd)/Swarm Test-ff404fd8c125.json"
 if [ $# -ne 1 ]
 then
   echo first create a swarm id : docker run swarm create
-  echo "Not the right number of arguments. Try sudo ./create_swarm_gce [swarmId]."
+  echo "Not the right number of arguments. Try sudo ./create_swarm_gce.sh [swarmId]."
   exit $E_WRONG_ARGS_NO
 fi
 SWARM_ID=$1
@@ -27,7 +27,7 @@ do
   --swarm \
   --swarm-master \
   --swarm-discovery token://$SWARM_ID \
-  mgr_$MGR_ID
+  gce-mgr-$MGR_ID
 done
 
 #create worker nodes
@@ -38,5 +38,5 @@ do
   --google-project $PROJECT_ID \
   --swarm \
   --swarm-discovery token://$SWARM_ID \
-  node_$NODE_ID
+  gce-node-$NODE_ID
 done
