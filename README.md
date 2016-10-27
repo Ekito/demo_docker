@@ -29,6 +29,7 @@ type gloud info and make sure that [core] and [compute] figure here
 
 provision swarm cluster source documents
 https://docs.docker.com/swarm/provision-with-machine/
+https://docs.docker.com/machine/drivers/digital-ocean/
 https://rominirani.com/docker-swarm-on-google-compute-engine-364765b400ed#.ivezta3zi
 
 ## Create Swarm cluster on GCE
