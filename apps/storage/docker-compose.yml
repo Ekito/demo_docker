@@ -1,0 +1,27 @@
+version: '2'
+services:
+  btsync1:
+    image: resilio/sync
+    ports:
+    - 8888:8888
+    - 55555
+    volumes:
+    - /mnt/sync
+
+    networks:
+      - storage-tier
+
+  btsync2:
+    image: resilio/sync
+    ports:
+    - 8889:8888
+    - 55555
+    volumes:
+    - /mnt/sync
+
+    networks:
+      - storage-tier
+
+networks:
+  storage-tier:
+    driver: overlay
