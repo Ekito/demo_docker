@@ -24,15 +24,17 @@ do
   --swarm-master \
   --swarm-discovery consul://$CONSUL_IP:8500 \
   --engine-opt cluster-store=consul://$CONSUL_IP:8500 \
+  --engine-opt cluster-advertise=eth1:2376 \
   vbox-mgr-$MGR_ID
 done
 
-for NODE_ID in {1..1}
-do
-  docker-machine create \
-  --driver virtualbox \
-  --swarm \
-  --swarm-discovery consul://$CONSUL_IP:8500 \
-  --engine-opt cluster-store=consul://$CONSUL_IP:8500 \
-  vbox-node-$NODE_ID
-done
+#for NODE_ID in {1..1}
+#do
+#  docker-machine create \
+#  --driver virtualbox \
+#  --swarm \
+#  --swarm-discovery consul://$CONSUL_IP:8500 \
+#  --engine-opt cluster-store=consul://$CONSUL_IP:8500 \
+#  --engine-opt cluster-advertise=eth1:2376 \
+#  vbox-node-$NODE_ID
+#done

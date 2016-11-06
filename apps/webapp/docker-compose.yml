@@ -6,35 +6,19 @@ services:
       - "traefik.backend=web"
       - "traefik.frontend.rule=Host:web.example.com"
     networks:
-      - back-tier
+          - back-tier
 
   traefik_lb:
     image: traefik
-    command: --web --docker --docker.domain=docker.localhost --logLevel=DEBUG
+    command: --web --docker --docker.domain=example.com --logLevel=DEBUG -c /dev/null --docker.endpoint=$DOCKER_HOST  --docker.tls --docker.tls.ca=/ssl/ca.pem --docker.tls.cert=/ssl/server.pem --docker.tls.key=/ssl/server-key.pem --docker.tls.insecureSkipVerify --docker.watch
     ports:
       - "80:80"
       - "8080:8080"
     networks:
-      - front-tier
       - back-tier
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - /dev/null:/traefik.toml
-
-  ha_lb:
-      image: dockercloud/haproxy
-      ports:
-        - 81:80
-      links:
-        - web
-      networks:
-        - front-tier
-        - back-tier
-      volumes:
-        - /var/run/docker.sock:/var/run/docker.sock
+      - /var/lib/boot2docker/:/ssl
 
 networks:
-  front-tier:
-    driver: bridge
   back-tier:
-    driver: bridge
+    driver: overlay
