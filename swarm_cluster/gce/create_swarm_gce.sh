@@ -33,6 +33,7 @@ do
   --swarm \
   --swarm-master \
   --swarm-discovery consul://$CONSUL_IP:8500 \
+  --swarm-opt heartbeat=10 \
   --engine-opt cluster-store=consul://$CONSUL_IP:8500 \
   --engine-opt cluster-advertise=eth0:2376 \
   gce-mgr-$MGR_ID
@@ -48,7 +49,10 @@ do
   --google-project $PROJECT_ID \
   --swarm \
   --swarm-discovery consul://$CONSUL_IP:8500 \
+  --swarm-opt heartbeat=10 \
   --engine-opt cluster-store=consul://$CONSUL_IP:8500 \
   --engine-opt cluster-advertise=eth0:2376 \
+  --engine-label exposes=http8080 \
+  --google-tags http8080 \
   gce-node-$NODE_ID
 done
