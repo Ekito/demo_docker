@@ -2,6 +2,7 @@
 # sets up google api credentials location
 export GOOGLE_APPLICATION_CREDENTIALS="$(pwd)/Swarm Test-ff404fd8c125.json"
 
+docker-machine rm gce-consul-1 -y -f
 
 for MGR_ID in {1..2}
 do
