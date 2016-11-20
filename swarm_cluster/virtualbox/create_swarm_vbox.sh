@@ -25,6 +25,7 @@ do
   --swarm-discovery consul://$CONSUL_IP:8500 \
   --engine-opt cluster-store=consul://$CONSUL_IP:8500 \
   --engine-opt cluster-advertise=eth1:2376 \
+   --engine-label exposes=http8080 \
   vbox-mgr-$MGR_ID
 done
 

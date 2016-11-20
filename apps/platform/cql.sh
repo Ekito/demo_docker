@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+docker run -it \
+--net platform_cassandra_cluster \
+--rm cassandra:3.9 \
+cqlsh cassandra_master

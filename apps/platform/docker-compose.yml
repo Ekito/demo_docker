@@ -1,0 +1,26 @@
+version: '2'
+
+networks:
+  cassandra_cluster:
+    driver: overlay
+
+services:
+  cassandra_master:
+    image: cassandra:3.9
+    environment:
+    - MAX_HEAP_SIZE=512m
+    - HEAP_NEWSIZE=100m
+    - reschedule=on-node-failure
+    networks:
+     - cassandra_cluster
+
+  cassandra_node:
+    image: cassandra:3.9
+    environment:
+    - CASSANDRA_SEEDS=cassandra_master
+    - MAX_HEAP_SIZE=1024m
+    - HEAP_NEWSIZE=100m
+    depends_on:
+    - cassandra_master
+    networks:
+     - cassandra_cluster

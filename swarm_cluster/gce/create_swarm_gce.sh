@@ -25,7 +25,7 @@ CONSUL_IP=$(docker-machine ssh gce-consul-1 "ifconfig eth0 | grep 'inet addr' | 
 echo Consul Server up and running. IP: $CONSUL_IP
 
 #create swarm managers
-for MGR_ID in {1..2}
+for MGR_ID in {1..3}
 do
   docker-machine create \
   --driver google \
@@ -33,13 +33,11 @@ do
   --swarm \
   --swarm-master \
   --swarm-discovery consul://$CONSUL_IP:8500 \
-  --swarm-opt heartbeat=10 \
+  --swarm-opt heartbeat=10s \
   --engine-opt cluster-store=consul://$CONSUL_IP:8500 \
   --engine-opt cluster-advertise=eth0:2376 \
-  gce-mgr-$MGR_ID
+  gce-mgr-$MGR_ID &
 done
-
-CONSUL_IP=$(docker-machine ssh gce-consul-1 "ifconfig eth0 | grep 'inet addr' | cut -d ' ' -f 12 | cut -d ':' -f 2")
 
 #create worker nodes
 for NODE_ID in {1..1}
@@ -49,10 +47,12 @@ do
   --google-project $PROJECT_ID \
   --swarm \
   --swarm-discovery consul://$CONSUL_IP:8500 \
-  --swarm-opt heartbeat=10 \
+  --swarm-opt heartbeat=10s \
   --engine-opt cluster-store=consul://$CONSUL_IP:8500 \
   --engine-opt cluster-advertise=eth0:2376 \
   --engine-label exposes=http8080 \
   --google-tags http8080 \
-  gce-node-$NODE_ID
+  gce-node-$NODE_ID &
 done
+
+wait
